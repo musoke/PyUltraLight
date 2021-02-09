@@ -38,7 +38,12 @@ axion_mass = 1e-22 *1.783e-36 #kg
 
 
 # Set number of threads to target
-num_threads = multiprocessing.cpu_count()
+if 'OMP_NUM_THREADS' in os.environ:
+    # If slurm is used it sets this to the allocated number of cores
+    num_threads = int(os.environ['OMP_NUM_THREADS'])
+else:
+    num_threads = multiprocessing.cpu_count()
+
 
 # Set units for soliton parameters
 s_mass_unit = ''     #Accepted units: 'kg', 'solar_masses', 'M_solar_masses', and '' for dimensionless units
