@@ -375,7 +375,11 @@ def evolve(central_mass, num_threads, length, length_units, resol, duration, dur
     timestamp = '{}{}{}{}{}{}{}{}{}{}{}{}{}'.format(tm[0], '.', tm[1], '.', tm[2], '_', talt[0], ':', talt[1], ':', talt[2], '_', resol)
     file = open('{}{}{}'.format('./', save_path, '/timestamp.txt'), "w+")
     file.write(timestamp)
-    os.makedirs('{}{}{}{}'.format('./', save_path, '/', timestamp))
+    try:
+        os.makedirs('{}{}{}{}'.format('./', save_path, '/', timestamp))
+
+    except:
+        pass
     file = open('{}{}{}{}{}'.format('./', save_path, '/', timestamp, '/config.txt'), "w+")
     file.write(('{}{}'.format('resol = ', resol)))
     file.write('\n')
