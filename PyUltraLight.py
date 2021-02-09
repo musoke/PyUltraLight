@@ -29,14 +29,15 @@ def prog_bar(iteration_number, progress, tinterval):
     size = 50
     status = ""
     progress = float(progress) / float(iteration_number)
-    if progress >= 1.:
-        progress, status = 1, "\r\n"
-    block = int(round(size * progress))
-    text = "\r[{}] {:.0f}% {}{}{}{}".format(
-        "-" * block + " " * (size - block), round(progress * 100, 0),
-        status, ' The previous step took ', tinterval, ' seconds.')
-    sys.stdout.write(text)
-    sys.stdout.flush()
+    # if progress >= 1.:
+    #     progress, status = 1, "\r\n"
+    # block = int(round(size * progress))
+    # text = "\r[{}] {:.0f}% {}{}{}{}".format(
+    #     "-" * block + " " * (size - block), round(progress * 100, 0),
+    #     status, ' The previous step took ', tinterval, ' seconds.')
+    # sys.stdout.write(text)
+    # sys.stdout.flush()
+    pass
 
 
 
@@ -329,7 +330,7 @@ def calculate_energies(
 
 def evolve(central_mass, num_threads, length, length_units, resol, duration, duration_units, step_factor, save_number, save_options,
            save_path, npz, npy, hdf5, s_mass_unit, s_position_unit, s_velocity_unit, solitons, start_time):
-    print ('Initialising...')
+    # print ('Initialising...')
 
 
     ##########################################################################################
@@ -554,12 +555,14 @@ def evolve(central_mass, num_threads, length, length_units, resol, duration, dur
     # See commented section below (line 585)
 
     clear_output()
-    print("The total number of steps is %.0f" % actual_num_steps)
+    # print("The total number of steps is %.0f" % actual_num_steps)
     if warn == 1:
         print("WARNING: Significant overlap between solitons in initial conditions")
-    print('\n')
+    # print('\n')
     tinit = time.time()
 
+    t_outer = time.time()
+    actual_num_steps = 10
     for ix in range(actual_num_steps):
         if halfstepornot == 1:
             psi = ne.evaluate("exp(-1j*0.5*h*phisp)*psi")
@@ -632,8 +635,8 @@ def evolve(central_mass, num_threads, length, length_units, resol, duration, dur
     # LOOP ENDS
 
     clear_output()
-    print ('\n')
-    print("Complete.")
+    # print ('\n')
+    # print("Complete.")
     if warn == 1:
         print("WARNING: Significant overlap between solitons in initial conditions")
 
@@ -649,3 +652,4 @@ def evolve(central_mass, num_threads, length, length_units, resol, duration, dur
         file_name = "masslist.npy"
         np.save(os.path.join(os.path.expanduser(loc), file_name), mtotlist)
 
+    return (time.time() - t_outer) / actual_num_steps
